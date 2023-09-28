@@ -114,6 +114,8 @@
         const randomId = generateRandomId();
         iframe.src = `https://docs.google.com/forms/d/e/1FAIpQLScf-JUBRgmHfmipiH-hmj1dmu1A7WQp2f7HnU_TxnKvJZ6p6g/viewform?usp=pp_url&entry.263111410=${randomId}`;
 
+
+
         barcodeImg.src = "https://barcode.tec-it.com/barcode.ashx?data=" + randomId + "&code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0&noText=true";
         barcodeImg.style.display = 'block';
         barcodeIdDiv.textContent = randomId;
@@ -141,7 +143,7 @@
             document.getElementById('printContainer').style.display = 'block';
             const randomId = generateRandomId();
             document.getElementById('googleForm').style.display = 'block';
-            document.getElementById('googleForm').src = `https://docs.google.com/forms/d/e/1FAIpQLScf-JUBRgmHfmipiH-hmj1dmu1A7WQp2f7HnU_TxnKvJZ6p6g/viewform?usp=pp_url&entry.263111410=${randomId}&entry.452822502=${encodeURIComponent(customerName)}`;
+            document.getElementById('googleForm').src = `https://docs.google.com/forms/d/e/1FAIpQLSc62K8LV18za_y_Ulmqow7xLXf4UXC-w4ylXkKXPZPI_3fgZQ/viewform?usp=pp_url&entry.1861249481=${randomId}&entry.452822502=${encodeURIComponent(customerName)}`;
 
             document.getElementById('largeInput').value = formattedDate + customerName;
             document.getElementById('barcodeImg').src = "https://barcode.tec-it.com/barcode.ashx?data=" + randomId + "&code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0&noText=true";
