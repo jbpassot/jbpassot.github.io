@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Tire - TSL Forms</title>
+    <style>
+        #barcodeImg {
+            display: none;
+            margin: 20px auto;
+            display: block;
+        }
+
+        #barcodeId {
+            text-align: center;
+            font-size: 100px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Style for the large input box */
+        #largeInput {
+            font-size: 64px;
+            /* Adjust this for desired size */
+            width: 100%;
+            padding: 10px;
+            margin: 20px auto;
+            display: block;
+            text-align: center;
+        }
+
+        .no-print {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .no-print button {
+            display: block;
+            margin: auto;
+        }
+
+        @media print {
+            body *:not(.no-print) {
+                display: none !important;
+            }
+
+            #barcodeContainer,
+            #barcodeContainer *:not(.no-print) {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="nameContainer">
+        <label for="customerName" style="font-size: 24px;">Customer Name (Last, First): </label>
+        <input type="text" id="customerName" style="font-size: 24px; width: 25%;">
+        <button style="font-size: 24px;" onclick=" loadForm()">Load Form and Barcode</button>
+    </div>
+    <BR>
+    <iframe id="googleForm" width="100%" height="650" style="display:none;"></iframe>
+
+    <div class="no-print" style="display:none;" id="printContainer">
+        <button onclick="printBarcode()">Print Barcode</button>
+    </div>
+    <div class="container" style="display:none;" id="barcodeContainer">
+
+        <input type="text" id="largeInput" placeholder="">
+        <img id="barcodeImg" src="" alt="Barcode" style="width: 100%;">
+        <div id="barcodeId"></div>
+    </div>
+
+
+
+    <script>
+
+        function noConflictProbability(numDraws, range) {
+            let probability = 1;
+
+            for (let i = 0; i < numDraws; i++) {
+                probability *= (range - i) / range;
+            }
+
+            return probability;
+        }
+
+        const draws = 1000;
+        const maxRange = 100000000;
+
+        const probabilityUnique = noConflictProbability(draws, maxRange);
+        const probabilityConflict = 1 - probabilityUnique;
+
+        console.log(`Probability all numbers are unique: ${probabilityUnique}`);
+        console.log(`Probability at least one conflict: ${probabilityConflict}`);
+
+        const iframe = document.getElementById('googleForm');
+        const barcodeImg = document.getElementById('barcodeImg');
+        const barcodeIdDiv = document.getElementById('barcodeId');
+
+        // Generate random ID
+        function generateRandomId() {
+            let number = '600-';
+            for (let i = 0; i < 10; i++) {
+                number += Math.floor(Math.random() * 10).toString();
+            }
+            return number;
+        }
+
+        const randomId = generateRandomId();
+        iframe.src = `https://docs.google.com/forms/d/e/1FAIpQLScf-JUBRgmHfmipiH-hmj1dmu1A7WQp2f7HnU_TxnKvJZ6p6g/viewform?usp=pp_url&entry.263111410=${randomId}`;
+
+
+
+        barcodeImg.src = "https://barcode.tec-it.com/barcode.ashx?data=" + randomId + "&code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0&noText=true";
+        barcodeImg.style.display = 'block';
+        barcodeIdDiv.textContent = randomId;
+
+        function printBarcode() {
+            window.print();
+        }
+
+        function loadForm() {
+            const customerName = document.getElementById('customerName').value.trim();
+            if (!customerName) {
+                alert('Please enter the customer name.');
+                return;
+            }
+
+            // Hide the name input container
+            document.getElementById('customerName').readOnly = true;
+            // Hide the "Load Form" button
+            document.querySelector('#nameContainer button').style.display = 'none';
+
+
+            const currentDate = new Date();
+            const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear().toString().substr(-2)} - `;
+
+            document.getElementById('printContainer').style.display = 'block';
+            const randomId = generateRandomId();
+            document.getElementById('googleForm').style.display = 'block';
+            document.getElementById('googleForm').src = `https://docs.google.com/forms/d/e/1FAIpQLSe2w2-FbR9m840u81uT--gVlGb7AXypv0x67J3W3LKIvhdMew/viewform?usp=pp_url&entry.187118815=${randomId}&entry.452822502=${encodeURIComponent(customerName)}`;
+
+            document.getElementById('largeInput').value = formattedDate + customerName;
+            document.getElementById('barcodeImg').src = "https://barcode.tec-it.com/barcode.ashx?data=" + randomId + "&code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=Gif&rotation=0&color=%23000000&bgcolor=%23ffffff&qunit=Mm&quiet=0&noText=true";
+            document.getElementById('barcodeContainer').style.display = 'block';
+            document.getElementById('barcodeId').textContent = randomId;
+        }
+    </script>
+
+</body>
+
+</html>
